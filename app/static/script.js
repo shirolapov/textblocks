@@ -42,19 +42,13 @@ var controller = {
     if (text.length == 0) {
       alert("Empty text");
     } else {
-      var textBlock = model.addTextBlock(text, easy);
-      viewer.addTextBlockToDom(textBlock);
+      model.addTextBlock(text, easy);
     };
-    viewer.printQuanitySelectedBlocks();
   },
   deleteTextBlock: function(textBlockDom) {
-    viewer.deleteTextBlockFromDOM(textBlockDom)
     model.deleteTextBlock(textBlockDom);
-    viewer.printQuanitySelectedBlocks();
   },
   triggerColor: function(textBlockDom) {
-    console.log("Test");
-    viewer.triggerColor(textBlockDom);
     model.triggerColor(textBlockDom);
   },
   selectBlock: function(textBlockDom) {
@@ -178,7 +172,9 @@ var model = {
     var textBlock = new TextBlock(text, simple, id);
     this.textBlocks.push(textBlock);
     this.saveDataToLocalStorage();
-    return textBlock;
+
+    viewer.addTextBlockToDom(textBlock);
+    viewer.printQuanitySelectedBlocks();
   },
   deleteTextBlock: function(textBlock) {
     for (var i = 0; this.textBlocks.length > i; i++) {
@@ -187,6 +183,9 @@ var model = {
       }
     };
     this.saveDataToLocalStorage();
+
+    viewer.deleteTextBlockFromDOM(textBlock);
+    viewer.printQuanitySelectedBlocks();
   },
   triggerColor: function(textBlock) {
     this.textBlocks.forEach(function(item, i) {
@@ -198,6 +197,7 @@ var model = {
         }
       }
     });
+    viewer.triggerColor(textBlock);
     this.saveDataToLocalStorage();
   },
   saveDataToLocalStorage: function() {
