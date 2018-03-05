@@ -107,10 +107,8 @@ var viewer = {
     }
 
     sticky.appendChild(closeButton);
-    stickies.appendChild(sticky);
-
     sticky.appendChild(span);
-    stickies.appendChild(sticky);
+    stickies.insertBefore(sticky, stickies.childNodes[0]);
 
     this.makeBlocksEven();
   },

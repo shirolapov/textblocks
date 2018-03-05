@@ -56,11 +56,11 @@ ul#text-blocks li {
 	-moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 	-o-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-	-webkit-transition: all 0.5s ease-in;
-	-moz-transition: all 0.5s ease-in;
-	-o-transition: all 0.5s ease-in;
-	-ms-transition: all 0.5s ease-in;
-	transition: all 0.5s ease-in;
+	-webkit-transition: all 0.2s ease-in;
+	-moz-transition: all 0.2s ease-in;
+	-o-transition: all 0.2s ease-in;
+	-ms-transition: all 0.2s ease-in;
+	transition: all 0.2s ease-in;
 	overflow: hidden;
 }
 
