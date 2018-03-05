@@ -28,6 +28,8 @@ function init() {
   textBlocks.forEach(function(item) {
     viewer.addTextBlockToDom(item);
   });
+
+  viewer.printQuanitySelectedBlocks();
 }
 
 function TextBlock(text, easy = true, id, color = "green") {
@@ -80,7 +82,7 @@ var viewer = {
     var span = document.createElement("span");
     var closeButton = document.createElement("button");
 
-    closeButton.setAttribute("class", "close-button")
+    closeButton.classList.add("close-button")
     closeButton.innerHTML = "X";
     closeButton.onclick = function(e) {
       controller.deleteTextBlock(e.target.parentElement);
@@ -92,8 +94,9 @@ var viewer = {
     sticky.setAttribute("data-simple-text-block", textBlock.simple);
     sticky.setAttribute("data-block-selected", false);
     sticky.setAttribute("id", textBlock.id);
+    sticky.classList.add("text-block-item");
     if (!textBlock.simple) {
-      sticky.setAttribute("class", textBlock.color);
+      sticky.classList.add(textBlock.color);
       sticky.ondblclick = function(textBlock) {
         controller.triggerColor(textBlock);
       }
@@ -108,6 +111,8 @@ var viewer = {
 
     sticky.appendChild(span);
     stickies.appendChild(sticky);
+
+    this.makeBlocksEven();
   },
   deleteTextBlockFromDOM: function(textBlock) {
     if (textBlock.dataset.simpleTextBlock == "true") {
@@ -119,17 +124,31 @@ var viewer = {
         return true;
       }
     };
-    return false;
+    this.makeBlocksEven();
   },
   triggerColor: function(textBlock) {
-    if (textBlock.target.className == "green") {
-      textBlock.target.className = "red";
+    if (textBlock.target.nodeName == "LI") {
+      var textBlockDom = textBlock.target;
     } else {
-      textBlock.target.className = "green";
+      var textBlockDom = textBlock.target.parentElement;
+    }
+    if (textBlockDom.classList.contains("green")) {
+      textBlockDom.classList.remove("green");
+      textBlockDom.classList.add("red");
+    } else {
+      textBlockDom.classList.remove("red");
+      textBlockDom.classList.add("green");
     };
     this.printQuanitySelectedBlocks();
   },
   printQuanitySelectedBlocks: function() {
+    var totalTextBlocksCount = 0;
+    var textBlockItem = document.getElementsByClassName("text-block-item");
+    var countTotalBlocks = document.getElementById("count-total-blocks");
+    totalTextBlocksCount = textBlockItem.length;
+    countTotalBlocks.innerHTML = totalTextBlocksCount;
+
+
     // All; Count and print total selected blocks
     var selectedBlocksCount = 0;
     var selectedBlocks = document.querySelectorAll('[data-block-selected="true"]');
@@ -162,6 +181,19 @@ var viewer = {
 
     var countSelectedRedBlocks = document.getElementById("count-selected-red-blocks");
     countSelectedRedBlocks.innerHTML = redBlocksCount;
+  },
+  makeBlocksEven: function() {
+    var blocks = document.getElementsByClassName("text-block-item");
+    var sticky = document.getElementsByClassName("sticky");
+    var maxHeight = 200;
+    for (var i = 0; sticky.length > i; i++) {
+      if (sticky[i].offsetHeight > maxHeight) {
+        maxHeight = sticky[i].offsetHeight;
+      }
+    }
+    for (var i = 0; blocks.length > i; i++) {
+      blocks[i].style.minHeight = maxHeight + "px";
+    }
   }
 }
 
